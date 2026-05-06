@@ -1,0 +1,24 @@
+# Dependencies — устанавливаем внутри образа
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

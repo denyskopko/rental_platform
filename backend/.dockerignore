@@ -1,0 +1,35 @@
+# Python кэш
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+*.log
+
+# Environment — не копируем в образ
+.env
+.env.example
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Тесты
+*/tests.py
