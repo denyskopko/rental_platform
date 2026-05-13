@@ -29,6 +29,19 @@ if env('AWS_ACCESS_KEY_ID', default=''):
             'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
         }
     }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env('REDIS_URL', default='redis://redis:6379/0'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
