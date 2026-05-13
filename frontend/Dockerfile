@@ -1,4 +1,4 @@
-# Stage 1 — сборка
+
 FROM node:20-alpine AS builder
 
 WORKDIR /app
