@@ -98,7 +98,7 @@ class PopularListingsView(APIView):
     def get(self, request):
         listings = Listing.objects.filter(
             is_active=True
-        ).order_by('-view_count')[:10].prefetch_related('images')
+        ).order_by('-view_count')[:12].prefetch_related('images')
 
         serializer = ListingShortSerializer(
             listings, many=True, context={'request': request}

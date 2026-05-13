@@ -31,7 +31,6 @@ export default function MyListings() {
     }
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Удалить объявление?')) return
         try {
             await api.delete(`/listings/${id}/`)
             setListings(prev => prev.filter(l => l.id !== id))

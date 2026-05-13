@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
 
 export default function ListingDetail() {
+    const [activeImage, setActiveImage] = useState(0)
     const { id } = useParams()
     const { user } = useAuth()
     const navigate = useNavigate()
@@ -73,38 +74,52 @@ export default function ListingDetail() {
             <div className="col-md-8">
                 {/* Фото */}
                 {listing.images?.length > 0 ? (
-                    <img
-                        src={listing.images[0].image}
-                        className="img-fluid rounded mb-3"
-                        style={{ width: '100%', height: '350px', objectFit: 'cover' }}
-                        alt={listing.title}
-                    />
+                    <div className="mb-3">
+                        {/* Главное фото */}
+                        <img
+                            src={listing.images[activeImage].image}
+                            className="img-fluid rounded"
+                            alt={listing.title}
+                            style={{ width: '100%', height: '350px', objectFit: 'contain', backgraung: '#f8f9fa' }}
+                        />
+
+                        {/* Миниатюры */}
+                        {listing.images.length > 1 && (
+                            <div className="d-flex gap-2 mt-2 flex-wrap">
+                                {listing.images.map((img, i) => (
+                                    <img
+                                        key={i}
+                                        src={img.image}
+                                        alt={`фото ${i + 1}`}
+                                        onClick={() => setActiveImage(i)}
+                                        style={{
+                                            width: '80px',
+                                            height: '60px',
+                                            objectFit: 'cover',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            border: activeImage === i
+                                                ? '3px solid #0d6efd'
+                                                : '3px solid transparent',
+                                            opacity: activeImage === i ? 1 : 0.7,
+                                            transition: 'all 0.2s'
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Счётчик */}
+                        <small className="text-muted">
+                            {activeImage + 1} / {listing.images.length}
+                        </small>
+                    </div>
                 ) : (
                     <div
                         className="bg-secondary rounded mb-3 d-flex align-items-center justify-content-center"
                         style={{ height: '350px' }}
                     >
                         <span className="text-white" style={{ fontSize: '80px' }}>🏠</span>
-                    </div>
-                )}
-
-                {/* Галерея */}
-                {listing.images?.length > 1 && (
-                    <div className="d-flex gap-2 mb-3 flex-wrap">
-                        {listing.images.slice(1).map((img, i) => (
-                            <img
-                                key={i}
-                                src={img.image}
-                                alt={`фото ${i + 2}`}
-                                style={{
-                                    width: '100px',
-                                    height: '80px',
-                                    objectFit: 'cover',
-                                    borderRadius: '8px',
-                                    cursor: 'pointer'
-                                }}
-                            />
-                        ))}
                     </div>
                 )}
 

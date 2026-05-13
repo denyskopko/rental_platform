@@ -6,14 +6,14 @@ services:
     container_name: rental_db
     restart: always
     environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: rental_platform
+      MYSQL_USER: rental_user
+      MYSQL_PASSWORD: my_db_hard_password
+      MYSQL_ROOT_PASSWORD: my_db_root_password
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pmy_db_root_password"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -49,7 +49,9 @@ services:
       redis:
         condition: service_healthy
     command: >
-      sh -c "python manage.py migrate --settings=config.settings.prod &&
+      sh -c "echo 'Waiting for database...' &&
+             sleep 15 &&
+             python manage.py migrate --settings=config.settings.prod &&
              python manage.py collectstatic --no-input --settings=config.settings.prod &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
     networks:

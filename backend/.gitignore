@@ -1,4 +1,4 @@
-# Python
+
 __pycache__/
 *.py[cod]
 *.pyo
@@ -6,31 +6,33 @@ __pycache__/
 .Python
 *.pyc
 
-# Virtual environment
+
 .venv/
 venv/
 env/
 
-# Django
+
 *.log
 local_settings.py
 db.sqlite3
 media/
 staticfiles/
 
-# Environment
-.env
 
-# IDE
+.env
+.env.docker
+.env.docker.save
+*.save
+
+
 .idea/
 .vscode/
 *.swp
 *.swo
 
-# OS
+
 .DS_Store
 Thumbs.db
 
-# Migrations пишем в git — не игнорируем
-# но игнорируем кэш миграций
+
 **/migrations/__pycache__/

@@ -7,7 +7,7 @@ export default function ChatButton() {
     const [isOpen, setIsOpen] = useState(false)
 
     // скрываем чат для арендодателей
-    if (user?.role === 'landlord') return null
+    if (!user || user.role === 'landlord') return null
 
     return (
         <>

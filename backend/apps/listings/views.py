@@ -36,13 +36,18 @@ def get_viewer_key(request, listing_id):
 
 
 def clear_listing_cache(instance=None):
-    if settings.DEBUG:
+    from django.conf import settings
+    try:
+        if settings.DEBUG:
+            cache.clear()
+        else:
+            if instance:
+                cache.delete(f"listings:detail:{instance.pk}")
+                cache.delete(f"listings:detail:data:{instance.pk}")
+            cache.delete_pattern("listings:list:*")
+    except AttributeError:
+        # Redis недоступен — используем clear()
         cache.clear()
-    else:
-        if instance:
-            cache.delete(f"listings:detail:{instance.pk}")
-            cache.delete(f"listings:detail:data:{instance.pk}")
-        cache.delete_pattern("listings:list:*")
 
 
 class ListingViewSet(viewsets.ModelViewSet):
@@ -150,9 +155,10 @@ class ListingViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-
     def create(self, request, *args, **kwargs):
         try:
+            print('FILES:', list(request.FILES.keys()))
+            print('COUNT:', len(request.FILES.getlist('uploaded_images')))
             serializer = self.get_serializer(data=request.data)
             if not serializer.is_valid():
                 return Response(

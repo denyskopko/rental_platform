@@ -58,8 +58,8 @@ class ListingShortSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'city', 'district',
             'property_type', 'price_per_night',
-            'rooms', 'avg_rating', 'view_count', 'main_image'
-        ]
+            'rooms', 'avg_rating', 'view_count',
+            'is_active','main_image']
 
     def get_main_image(self, obj):
         first = obj.images.first()
